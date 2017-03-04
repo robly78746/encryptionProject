@@ -1,18 +1,20 @@
 <?php
 
 // Symmetric Encryption
-
-// Cipher method to use for symmetric encryption
 const CIPHER_METHOD = 'AES-256-CBC';
-
+// Cipher method to use for symmetric encryption
+$iv = 'secretivsecretiv';
 function key_encrypt($string, $key, $cipher_method=CIPHER_METHOD) {
-  return "D4RK SH4D0W RUL3Z";
+	global $iv;
+  $encrypted = openssl_encrypt($string, $cipher_method, $key, 0, $iv);
+  return $encrypted;
 }
 
 function key_decrypt($string, $key, $cipher_method=CIPHER_METHOD) {
-  return "PWNED YOU!";
+	global $iv;
+  $result = openssl_decrypt($string, $cipher_method, $key, 0, $iv);
+  return $result;
 }
-
 
 // Asymmetric Encryption / Public-Key Cryptography
 
