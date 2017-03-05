@@ -53,7 +53,9 @@
         <div>
           <label for="encode_algorithm">Algorithm</label>
           <select name="encode_algorithm">
-            <option value="AES-256-CBC">AES-256-CBC</option>
+			<?php foreach(openssl_get_cipher_methods() as $method) { ?>
+            <option value="<?php echo $method;?>"><?php echo $method;?></option>
+			<?php } ?>
           </select>
         </div>
         <div>
@@ -82,7 +84,9 @@
         <div>
           <label for="decode_algorithm">Algorithm</label>
           <select name="decode_algorithm">
-            <option value="AES-256-CBC">AES-256-CBC</option>
+            <?php foreach(openssl_get_cipher_methods() as $method) { ?>
+            <option value="<?php echo $method;?>"><?php echo $method;?></option>
+			<?php } ?>
           </select>
         </div>
         <div>
