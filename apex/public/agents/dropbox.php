@@ -24,7 +24,7 @@
   </head>
   <body>
     
-    <a href="<?php echo url_for('/agents/index.php') ?>">Back to List</a>
+    <a href="<?php echo url_for('/index.php') ?>">Back to List</a>
     <br/>
 
     <h1>Message Dropbox</h1>
@@ -36,7 +36,7 @@
       
       <p>Messages may not exceed 245 characters.</p>
         
-      <form action="<?php echo url_for('/agents/post_message.php?id=' . h(u($agent['id']))); ?>" method="post">
+      <form action="<?php echo url_for('/post_message.php?id=' . h(u($agent['id']))); ?>" method="post">
         <div>
           <textarea class="large" name="plain_text" maxlength="245"></textarea>
         </div>

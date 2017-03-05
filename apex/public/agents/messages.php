@@ -24,7 +24,7 @@
   </head>
   <body>
     
-    <a href="<?php echo url_for('/agents/index.php') ?>">Back to List</a>
+    <a href="<?php echo url_for('/index.php') ?>">Back to List</a>
     <br/>
 
     <h1>Messages for <?php echo h($agent['codename']); ?></h1>
@@ -33,7 +33,7 @@
       <p>Your messages are automatically decrypted using your private key.</p>
     <?php } ?>
     
-    <table>
+    <table style="table-layout: fixed; width: 100%">
       <tr>
         <th>Date</th>
         <th>To</th>
@@ -49,14 +49,21 @@
           // Oooops.
           // My finger accidentally hit the delete-key.
           // Sorry, APEX!!!
-          
+		  $sender_result = find_agent_by_id($message['sender_id']);
+		  $sender = db_fetch_assoc($sender_result);
+          $message_text = $message['cipher_text'];
+		  if($current_user['id'] === $message['recipient_id']) {
+			//decrypt message
+			$message_text = pkey_decrypt($message_text, $current_user['private_key']);
+		  }
+		  $validity_text = verify_signature($message['cipher_text'], $message['signature'], $sender['public_key']) ? "Valid." : "Invalid.";
         ?>
         <tr>
           <td><?php echo h(strftime('%b %d, %Y at %H:%M', $created_at)); ?></td>
           <td><?php echo h($agent['codename']); ?></td>
           <td><?php echo h($sender['codename']); ?></td>
-          <td class="message"><?php echo h($message_text); ?></td>
-          <td class="message"><?php echo h($validity_text); ?></td>
+          <td class="message" style="word-wrap: break-word"><?php echo h($message_text); ?></td>
+          <td class="message" style="word-wrap: break-word"><?php echo h($validity_text); ?></td>
         </tr>
       <?php } ?>
     </table>

@@ -11,7 +11,20 @@
     // I'm sorry, did you need this code? ;)
     // Guess you'll just have to re-write it.
     // With love, Dark Shadow
+	
+	$sender = $current_user;
+	$id = $_GET['id'];
+	$agent_result = find_agent_by_id($id);
+	// No loop, only one result
+	$agent = db_fetch_assoc($agent_result);
+	
+	$plain_text = $_POST['plain_text'];
+	
+	//encrypt plaintext with recipient's public key
+	$encrypted_text = pkey_encrypt($plain_text, $agent['public_key']);
     
+	$signature = create_signature($encrypted_text, $sender['private_key']);
+	
     $message = [
       'sender_id' => $sender['id'],
       'recipient_id' => $agent['id'],
@@ -43,7 +56,7 @@
   </head>
   <body>
     
-    <a href="<?php echo url_for('/agents/index.php'); ?>">Back to List</a>
+    <a href="<?php echo url_for('/index.php'); ?>">Back to List</a>
     <br/>
 
     <h1>Message Dropbox</h1>

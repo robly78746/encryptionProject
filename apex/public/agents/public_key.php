@@ -24,7 +24,7 @@
   </head>
   <body>
     
-    <a href="<?php echo url_for('/agents/index.php'); ?>">Back to List</a>
+    <a href="index.php">Back to List</a>
     <br/>
 
     <h1>Public Key for <?php echo h($agent['codename']); ?></h1>
