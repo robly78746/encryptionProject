@@ -52,7 +52,7 @@
 		  $sender_result = find_agent_by_id($message['sender_id']);
 		  $sender = db_fetch_assoc($sender_result);
           $message_text = $message['cipher_text'];
-		  if($current_user['id'] === $message['recipient_id']) {
+		  if($current_user['id'] == $message['recipient_id']) {
 			//decrypt message
 			$message_text = pkey_decrypt($message_text, $current_user['private_key']);
 		  }
