@@ -59,7 +59,8 @@ function pkey_encrypt($string, $public_key) {
 }
 
 function pkey_decrypt($string, $private_key) {
-	openssl_private_decrypt($string, $decrypted, $private_key);
+	$ciphertext = base64_decode($string);
+	openssl_private_decrypt($ciphertext, $decrypted, $private_key);
   return $decrypted;
 }
 
