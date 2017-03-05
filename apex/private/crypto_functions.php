@@ -69,12 +69,18 @@ function pkey_decrypt($string, $private_key) {
 
 function create_signature($data, $private_key) {
   // A-Za-z : ykMwnXKRVqheCFaxsSNDEOfzgTpYroJBmdIPitGbQUAcZuLjvlWH
-  return 'RpjJ WQL BImLcJo QLu dQv vJ oIo Iu WJu?';
+  //$r_private_key = openssl_pkey_get_private($private_key);
+  
+  openssl_sign($data, $raw_signature, $private_key);
+  $signature = base64_encode($raw_signature);
+  return $signature;
 }
 
 function verify_signature($data, $signature, $public_key) {
   // Vigenère
-  return 'RK, pym oays onicvr. Iuw bkzhvbw uedf pke conll rt ZV nzxbhz.';
+  $raw_signature = base64_decode($signature);
+  $result = openssl_verify($data, $raw_signature, $public_key);
+  return $result;
 }
 
 ?>
