@@ -6,6 +6,7 @@ const CIPHER_METHOD = 'AES-256-CBC';
 $iv = 'secretivsecretiv';
 function key_encrypt($string, $key, $cipher_method=CIPHER_METHOD) {
 	//global $iv;
+	$key = str_pad($key, 32, '*');
 	$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
   $encrypted = openssl_encrypt($string, $cipher_method, $key, OPENSSL_RAW_DATA, $iv);
   return base64_encode($iv.$encrypted);
@@ -14,17 +15,10 @@ function key_encrypt($string, $key, $cipher_method=CIPHER_METHOD) {
 function key_decrypt($string, $key, $cipher_method=CIPHER_METHOD) {
 	$decoded = base64_decode($string);
 	$cipher_methods = openssl_get_cipher_methods();
-	$result = "";
-	/*foreach($cipher_methods as $method) {
-		$iv = substr($decoded, 0, openssl_cipher_iv_length($method));
-		$cipherText = substr($decoded, openssl_cipher_iv_length($method));
-		//$iv = "";
-		$result .= openssl_decrypt($cipherText , $method, $key, OPENSSL_RAW_DATA, $iv);
-		return $result;
-	}
-	return $result;*/
+	$key = str_pad($key, 32, '*');
 	$iv = substr($decoded, 0, openssl_cipher_iv_length($cipher_method));
 	$cipherText = substr($decoded, openssl_cipher_iv_length($cipher_method));
+	
 	$result = openssl_decrypt($cipherText , $cipher_method, $key, OPENSSL_RAW_DATA, $iv);
 	return $result;
 }

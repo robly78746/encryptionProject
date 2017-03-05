@@ -25,7 +25,10 @@
     global $db;
     $sql = "SELECT * FROM agents ";
     $sql .= "WHERE id='" . $id . "';";
-    $result = db_query($db, $sql);
+	$sql = $db->prepare("SELECT * FROM agents WHERE id=? LIMIT 1;");
+	$sql->bind_param("i", $id);
+    $sql->execute();
+	$result = mysqli_stmt_get_result($sql);
     return $result;
   }
   
